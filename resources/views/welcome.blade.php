@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    do an tot nghiep
+                    Create Database
                 </div>
 
                 <div class="links">
