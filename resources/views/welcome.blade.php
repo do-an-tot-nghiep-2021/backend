@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    do an tot nghiep
                 </div>
 
                 <div class="links">
