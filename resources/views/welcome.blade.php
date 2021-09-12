@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                   Test trigger deploy
+                   Test trigger deploy pull request
                 </div>
 
                 <div class="links">
