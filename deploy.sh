@@ -50,5 +50,9 @@ php artisan view:cache
 # Build assets using Laravel Mix
 # npm run production
 
+# Run optimize
+echo "Run optimize"
+php artisan optimize
+
 # Turn off maintenance mode
 php artisan up
