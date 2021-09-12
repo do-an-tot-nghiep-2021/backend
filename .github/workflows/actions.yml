@@ -18,7 +18,7 @@ jobs:
         username: ${{ secrets.SERVER_USERNAME }}
         password: ${{ secrets.SERVER_PASSWORD }}
         port: ${{ secrets.SERVER_POST }}
-        script: "cd ~/doantotnghiep/develop/backend && sh ./deployment/develop/deploy.sh"
+        script: "cd ~/doantotnghiep/develop/backend && git pull origin develop && sh ./deployment/develop/deploy.sh"
 
   production-deploy:
     if: github.ref == 'refs/heads/master'
@@ -31,5 +31,5 @@ jobs:
         username: ${{ secrets.SERVER_USERNAME }}
         password: ${{ secrets.SERVER_PASSWORD }}
         port: ${{ secrets.SERVER_POST }}
-        script: "cd ~/doantotnghiep/production/backend && sh ./deployment/production/deploy.sh"
+        script: "cd ~/doantotnghiep/production/backend && git pull origin master && sh ./deployment/production/deploy.sh"
 
