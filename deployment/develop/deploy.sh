@@ -1,9 +1,18 @@
-echo "Deploying application ..."
+echo "Deploying application >> Develop"
 
 # Turn on maintenance mode
 echo "Turn on maintenance mode"
 php artisan down || true
 
+# Pull the latest changes from the git repository
+# git reset --hard
+# git clean -df
+echo "Pull the latest changes from the git repository"
+git pull origin develop
+
+# Copy env file
+echo "Copy env file"
+cp ./env/.env.develop ./.env
 
 # Install/update composer dependecies
 echo "Install/update composer dependecies"
