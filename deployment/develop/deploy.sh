@@ -18,33 +18,10 @@ cp ./env/.env.develop ./.env
 echo "Install/update composer dependecies"
 composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
-# Run database migrations
-echo "Run database migrations"
-php artisan migrate --force
-
-# Run create symbolic
-echo "Run create symbolic"
-php artisan storage:link
-
 # Clear caches
 echo "Clear caches"
+php artisan optimize:clear
 php artisan cache:clear
-
-# Clear expired password reset tokens
-echo "Clear expired password reset tokens"
-php artisan auth:clear-resets
-
-# Clear and cache routes
-echo "Clear and cache routes"
-php artisan route:cache
-
-# Clear and cache config
-echo "Clear and cache config"
-php artisan config:cache
-
-# Clear and cache views
-echo "Clear and cache views"
-php artisan view:cache
 
 # Install node modules
 # npm ci
@@ -52,9 +29,33 @@ php artisan view:cache
 # Build assets using Laravel Mix
 # npm run production
 
+# Run create symbolic
+echo "Run create symbolic"
+php artisan storage:link
+
+# Run database migrations
+echo "Run database migrations"
+php artisan migrate --force
+
+# Clear expired password reset tokens
+# echo "Clear expired password reset tokens"
+# php artisan auth:clear-resets
+
 # Run optimize
 echo "Run optimize"
 php artisan optimize
+
+# Cache routes
+echo "Cache routes"
+php artisan route:cache
+
+# Cache config
+echo "Cache config"
+php artisan config:cache
+
+# Cache views
+echo "Cache views"
+php artisan view:cache
 
 # Turn off maintenance mode
 php artisan up
