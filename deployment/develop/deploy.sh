@@ -4,12 +4,6 @@ echo "Deploying application >> Develop"
 echo "Turn on maintenance mode"
 php artisan down || true
 
-# Pull the latest changes from the git repository
-# git reset --hard
-# git clean -df
-echo "Pull the latest changes from the git repository"
-git pull origin develop
-
 # Copy env file
 echo "Copy env file"
 cp ./env/.env.develop ./.env
