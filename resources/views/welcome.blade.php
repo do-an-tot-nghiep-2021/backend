@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                   da fix
+                   Test trigger deploy
                 </div>
 
                 <div class="links">
