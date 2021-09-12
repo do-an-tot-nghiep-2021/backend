@@ -1,16 +1,9 @@
 echo "Deploying application ..."
 
-# Change to the project directory
-export ENV_NAME=develop
-
 # Turn on maintenance mode
+echo "Turn on maintenance mode"
 php artisan down || true
 
-# Pull the latest changes from the git repository
-# git reset --hard
-# git clean -df
-echo "Pull the latest changes from the git repository >> $ENV_NAME"
-git pull origin $ENV_NAME
 
 # Install/update composer dependecies
 echo "Install/update composer dependecies"
