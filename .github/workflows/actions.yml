@@ -20,3 +20,16 @@ jobs:
         port: 22
         script: "cd ~/doantotnghiep/develop/backend && sh ./deployment/develop/deploy.sh"
 
+  production-deploy:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      with:
+        host: 198.252.98.19
+        username: hirteame
+        password: Anh21102001@123
+        port: 22
+        script: "cd ~/doantotnghiep/production/backend && sh ./deployment/production/deploy.sh"
+
