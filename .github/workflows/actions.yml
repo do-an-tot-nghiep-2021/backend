@@ -1,0 +1,22 @@
+name: Laravel
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  develop-deploy:
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      with:
+        host: 198.252.98.19
+        username: hirteame
+        password: Anh21102001@123
+        port: 22
+        script: "cd ~/doantotnghiep/develop/backend && sh ./deployment/develop/deploy.sh"
+   
