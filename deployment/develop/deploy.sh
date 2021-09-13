@@ -8,6 +8,10 @@ php artisan down || true
 echo "Copy env file"
 cp ./env/.env.develop ./.env
 
+# Generate key
+echo "Generate key"
+php artisan key:generate
+
 # Install/update composer dependecies
 echo "Install/update composer dependecies"
 composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
