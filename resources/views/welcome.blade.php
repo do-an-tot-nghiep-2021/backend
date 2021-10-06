@@ -81,11 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-<<<<<<< HEAD
-                   hello
-=======
-                   Test trigger deploy pull request
->>>>>>> origin/master
+                    test
                 </div>
 
                 <div class="links">
