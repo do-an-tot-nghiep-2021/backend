@@ -13,7 +13,18 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('category')->group(function() {
+    Route::get('/', 'CategoryController@index');
+    Route::post('/create', 'CategoryController@store');
+    Route::get('/{id}', 'CategoryController@show');
+    Route::put('/{id}', 'CategoryController@update');
+    Route::delete('/{id}', 'CategoryController@destroy');
 });
+Route::prefix('product')->group(function() {
+    Route::get('/', 'ProductsController@index');
+    Route::post('/create', 'ProductsController@store');
+    Route::get('/{id}', 'ProductsController@show');
+    Route::put('/{id}', 'ProductsController@update');
+    Route::delete('/{id}', 'ProductsController@destroy');
+});
+Route::post('/uploads', 'UploadController@binary')->name('uploads.binary');
