@@ -27,4 +27,11 @@ Route::prefix('product')->group(function() {
     Route::put('/{id}', 'ProductsController@update');
     Route::delete('/{id}', 'ProductsController@destroy');
 });
+Route::prefix('type')->group(function() {
+    Route::get('/', 'TypeController@index');
+    Route::post('/create', 'TypeController@store');
+    Route::get('/{id}', 'TypeController@show');
+    Route::put('/{id}', 'TypeController@update');
+    Route::delete('/{id}', 'TypeController@destroy');
+});
 Route::post('/uploads', 'UploadController@binary')->name('uploads.binary');
