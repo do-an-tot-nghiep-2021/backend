@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -36,6 +37,7 @@ class CategoryController extends Controller
 
     public function destroy($id)
     {
+        DB::table('products')->where('cate_id', $id)->delete();
         $cate = CategoryModel::find($id);
         $deleted = $cate->delete();
         return response()->json($deleted);
