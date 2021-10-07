@@ -34,4 +34,25 @@ Route::prefix('type')->group(function() {
     Route::put('/{id}', 'TypeController@update');
     Route::delete('/{id}', 'TypeController@destroy');
 });
+Route::prefix('topping')->group(function() {
+    Route::get('/', 'ToppingController@index');
+    Route::post('/create', 'ToppingController@store');
+    Route::get('/{id}', 'ToppingController@show');
+    Route::put('/{id}', 'ToppingController@update');
+    Route::delete('/{id}', 'ToppingController@destroy');
+});
+Route::prefix('building')->group(function() {
+    Route::get('/', 'BuildingController@index');
+    Route::post('/create', 'BuildingController@store');
+    Route::get('/{id}', 'BuildingController@show');
+    Route::put('/{id}', 'BuildingController@update');
+    Route::delete('/{id}', 'BuildingController@destroy');
+});
+Route::prefix('classroom')->group(function() {
+    Route::get('/', 'ClassroomController@index');
+    Route::post('/create', 'ClassroomController@store');
+    Route::get('/{id}', 'ClassroomController@show');
+    Route::put('/{id}', 'ClassroomController@update');
+    Route::delete('/{id}', 'ClassroomController@destroy');
+});
 Route::post('/uploads', 'UploadController@binary')->name('uploads.binary');
