@@ -17,7 +17,7 @@ class CreateTableClassroom extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('building_id');
-            $table->foreign('building_id')->references('id')->on('classroom');
+            $table->foreign('building_id')->references('id')->on('building');
             $table->timestamps();
         });
     }
