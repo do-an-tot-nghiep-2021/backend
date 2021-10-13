@@ -44,8 +44,7 @@ class ProductsController extends Controller
     {
         $productTopping = DB::table('product_topping')->where('product_id', $id)->get();
         foreach ($productTopping as $topping){
-            $model = $topping->topping_id;
-//            $model = DB::table('topping')->where('id', $topping->topping_id)->get();
+            $model = DB::table('topping')->where('id', $topping->topping_id)->get();
         }
 //        $topping = DB::table('topping')->where('topping_id', $productTopping->id)->get();
         $product = ProductsModel::find($id);
