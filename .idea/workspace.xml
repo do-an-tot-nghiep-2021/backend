@@ -20,10 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35fa2d84-f40f-4e2c-95ae-181fe3a3160c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BuildingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BuildingController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_10_07_160618_create_table_classroom.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_10_07_160618_create_table_classroom.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
