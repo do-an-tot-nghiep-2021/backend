@@ -42,13 +42,13 @@ class ProductsController extends Controller
 
     public function show($id)
     {
-        $productTopping = DB::table('product_topping')->where('product_id', $id)->get();
-        foreach ($productTopping as $topping){
-            $model = DB::table('topping')->where('id', $topping->topping_id)->get();
-        }
+//        $productTopping = DB::table('product_topping')->where('product_id', $id)->get();
+//        foreach ($productTopping as $topping){
+//            $model = DB::table('topping')->where('id', $topping->topping_id)->get();
+//        }
 //        $topping = DB::table('topping')->where('topping_id', $productTopping->id)->get();
         $product = ProductsModel::find($id);
-        return response()->json(array('product'=>$product, 'topping'=>$model));
+        return response()->json($product);
     }
 
     public function update(Request $request, $id)
