@@ -55,4 +55,7 @@ Route::prefix('classroom')->group(function() {
     Route::put('/{id}', 'ClassroomController@update');
     Route::delete('/{id}', 'ClassroomController@destroy');
 });
+Route::prefix('product_topping')->group(function() {
+    Route::get('/', 'ProductToppingController@index');
+});
 Route::post('/uploads', 'UploadController@binary')->name('uploads.binary');
