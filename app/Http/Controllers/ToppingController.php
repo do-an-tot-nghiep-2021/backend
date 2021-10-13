@@ -28,10 +28,10 @@ class ToppingController extends Controller
 
     public function update(Request $request, $id)
     {
-        $model = ToppingModel::find($id);
-        $model->fill($request->all());
-        $model->save();
-        return response()->json($model);
+        $data = $request->all();
+        $Topping = ToppingModel::find($id);
+        $Topping->update($data);
+        return response()->json($Topping);
     }
 
     public function destroy($id)
