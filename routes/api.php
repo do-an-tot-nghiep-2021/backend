@@ -58,4 +58,14 @@ Route::prefix('classroom')->group(function() {
 Route::prefix('product_topping')->group(function() {
     Route::get('/', 'ProductToppingController@index');
 });
+Route::post('/login', 'AdminController@login');
+Route::prefix('admin')->group(function() {
+
+
+    Route::group(['middleware' => 'auth.jwt'], function () {
+        Route::get('logout', 'APIController@logout');
+        Route::get('users', 'UserController@index');
+    });
+});
+
 Route::post('/uploads', 'UploadController@binary')->name('uploads.binary');
