@@ -8,7 +8,7 @@ class ProductsModel extends Model
 {
     protected $table = "products";
     protected $fillable = [
-        'name', 'image', 'price', 'description', 'point', 'cate_id'
+        'name', 'image', 'price', 'description', 'cate_id'
     ];
 
     public function productTopping(){
@@ -17,5 +17,10 @@ class ProductsModel extends Model
 
     public function productType(){
         return $this->belongsToMany(TypeModel::class,'product_types','product_id', 'type_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(CategoryModel::class, 'cate_id');
     }
 }

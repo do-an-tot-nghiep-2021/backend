@@ -10,6 +10,7 @@ class ClassroomController extends Controller
     public function index()
     {
         $classrooms = ClassroomModel::all();
+        $classrooms->load('building');
         return response()->json($classrooms);
     }
 

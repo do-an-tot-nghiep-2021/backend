@@ -10,4 +10,9 @@ class ClassroomModel extends Model
     protected $fillable = [
         'name','building_id',
     ];
+
+    public function building()
+    {
+        return $this->belongsTo(BuildingModel::class, 'building_id');
+    }
 }
