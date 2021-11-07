@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductsModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductsController extends Controller
 {
@@ -42,6 +43,7 @@ class ProductsController extends Controller
     public function show($id)
     {
         $product = ProductsModel::find($id);
+        $product->load('category');
         $product->load('productTopping');
         $product->load('productType');
         return response()->json($product);
@@ -73,4 +75,5 @@ class ProductsController extends Controller
         $deleted = $product->delete();
         return response()->json($deleted);
     }
+
 }
