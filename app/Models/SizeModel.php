@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ToppingModel extends Model
+class SizeModel extends Model
 {
-    protected $table = "topping";
+    protected $table = "size";
     protected $fillable = [
-        'name','price', 'status',
+        'name','price',
     ];
 }

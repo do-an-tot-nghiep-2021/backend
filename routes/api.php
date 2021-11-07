@@ -41,6 +41,13 @@ Route::prefix('topping')->group(function() {
     Route::put('/{id}', 'ToppingController@update');
     Route::delete('/{id}', 'ToppingController@destroy');
 });
+Route::prefix('size')->group(function() {
+    Route::get('/', 'SizeController@index');
+    Route::post('/create', 'SizeController@store');
+    Route::get('/{id}', 'SizeController@show');
+    Route::put('/{id}', 'SizeController@update');
+    Route::delete('/{id}', 'SizeController@destroy');
+});
 Route::prefix('building')->group(function() {
     Route::get('/', 'BuildingController@index');
     Route::post('/create', 'BuildingController@store');
@@ -63,7 +70,7 @@ Route::prefix('admin')->group(function() {
     Route::post('/login', 'AdminController@login');
     Route::group(['middleware' => 'auth.jwt'], function () {
         Route::get('logout', 'APIController@logout');
-        Route::get('users', 'UserController@index');
+        Route::get('users/{token}', 'UserController@index');
     });
 });
 Route::prefix('order')->group(function() {
