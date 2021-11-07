@@ -47,7 +47,7 @@ class OrderController extends Controller
         $order->detail = DB::table('order_detail')->where('order_id', $id)->get();
         foreach ($order->detail as $value){
             $topping = DB::table('order_detail_topping')->where('order_detail_id', $value->id)->get();
-            $value->topping = [$topping];
+            $value->topping = $topping;
         }
         $order->detail->topping = $value->topping;
         return response()->json($order);
