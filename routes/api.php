@@ -66,5 +66,8 @@ Route::prefix('admin')->group(function() {
         Route::get('users', 'UserController@index');
     });
 });
-
+Route::prefix('order')->group(function() {
+    Route::get('/{id}', 'OrderController@index');
+    Route::post('/create', 'OrderController@store');
+});
 Route::post('/uploads', 'UploadController@binary')->name('uploads.binary');
