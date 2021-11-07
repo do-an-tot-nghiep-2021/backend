@@ -58,10 +58,9 @@ Route::prefix('classroom')->group(function() {
 Route::prefix('product_topping')->group(function() {
     Route::get('/', 'ProductToppingController@index');
 });
-Route::post('/login', 'AdminController@login');
+Route::post('/register', 'UserController@store');
 Route::prefix('admin')->group(function() {
-
-
+    Route::post('/login', 'AdminController@login');
     Route::group(['middleware' => 'auth.jwt'], function () {
         Route::get('logout', 'APIController@logout');
         Route::get('users', 'UserController@index');
