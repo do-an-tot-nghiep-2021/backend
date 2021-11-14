@@ -10,11 +10,34 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+    public function index()
+    {
+        $orders = OrderModel::all();
+        $orders->load('building');
+        $orders->load('classroom');
+        $orders->load('user');
+        foreach ($orders as $order) {
+            $status = config('common.status');
+            $payment = config('common.payment');
+            $order->status = $status[$order->status];
+            $order->payment = $payment[$order->payment];
+            $detail = DB::table('order_detail')->where('order_id', $order->id)->get();
+            $order->products = $detail;
+            foreach ($order->products as $value){
+                $topping = DB::table('order_detail_topping')->where('order_detail_id', $value->id)->get();
+                $value->topping = $topping;
+            }
+        }
 
+        return response()->json($orders);
+
+
+    }
 
     public function store(Request $request)
     {
         $order = OrderModel::create([
+            'user_id' => $request->userId,
             'building' => $request->building,
             'classroom' => $request->classroom,
             'item_total'=> $request->itemCount,
@@ -41,16 +64,56 @@ class OrderController extends Controller
         return response()->json(["status" => true]);
     }
 
-    public function index($id)
+    public function show(Request $request)
+    {
+        if($request->status){
+            $orders = DB::table('orders')->where('user_id', $request->id)->where('status', $request->status)->get();
+            foreach ($orders as $order){
+                $status = config('common.status');
+                $payment = config('common.payment');
+                $order->status = $status[$order->status];
+                $order->payment = $payment[$order->payment];
+                $order->products = DB::table('order_detail')->where('order_id', $order->id)->get();
+                foreach ($order->products as $value){
+                    $topping = DB::table('order_detail_topping')->where('order_detail_id', $value->id)->get();
+                    $value->topping = $topping;
+                }
+                $order->building = DB::table('building')->where('id', $order->building)->get();
+                $order->classroom = DB::table('classroom')->where('id', $order->classroom)->get();
+            }
+            return response()->json($orders);
+        }else{
+            $orders = DB::table('orders')->where('user_id', $request->id)->get();
+            foreach ($orders as $order){
+                $status = config('common.status');
+                $payment = config('common.payment');
+                $order->status = $status[$order->status];
+                $order->payment = $payment[$order->payment];
+                $order->products = DB::table('order_detail')->where('order_id', $order->id)->get();
+                foreach ($order->products as $value){
+                    $topping = DB::table('order_detail_topping')->where('order_detail_id', $value->id)->get();
+                    $value->topping = $topping;
+                }
+                $order->building = DB::table('building')->where('id', $order->building)->get();
+                $order->classroom = DB::table('classroom')->where('id', $order->classroom)->get();
+            }
+            return response()->json($orders);
+        }
+
+
+    }
+
+    public function showId($id)
     {
         $order = OrderModel::find($id);
-        $order->detail = DB::table('order_detail')->where('order_id', $id)->get();
-        foreach ($order->detail as $value){
-            $topping = DB::table('order_detail_topping')->where('order_detail_id', $value->id)->get();
-            $value->topping = $topping;
-        }
-        $order->detail->topping = $value->topping;
         return response()->json($order);
+    }
 
+    public function update(Request $request, $id)
+    {
+        $data = $request->all();
+        $order = OrderModel::find($id);
+        $order->update($data);
+        return response()->json(true);
     }
 }

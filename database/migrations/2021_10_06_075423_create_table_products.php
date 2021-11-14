@@ -20,8 +20,7 @@ class CreateTableProducts extends Migration
             $table->integer('price');
             $table->text('description');
             $table->integer('point')->default(0);
-            $table->unsignedBigInteger('cate_id');
-            $table->foreign('cate_id')->references('id')->on('categories');
+            $table->integer('cate_id');
             $table->timestamps();
         });
     }

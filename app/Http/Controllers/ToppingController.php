@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\ToppingModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ToppingController extends Controller
 {
@@ -15,9 +17,19 @@ class ToppingController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->all();
-        $Topping = ToppingModel::create($data);
-        return response()->json($Topping);
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:topping|max:255',
+            'price' => 'required',
+
+        ]);
+        if ($validator->fails()) {
+            return response()->json(false);
+        }
+        else{
+            $data = $request->all();
+            ToppingModel::create($data);
+            return response()->json(true);
+        }
     }
 
     public function show($id)
@@ -28,10 +40,20 @@ class ToppingController extends Controller
 
     public function update(Request $request, $id)
     {
-        $model = ToppingModel::find($id);
-        $model->fill($request->all());
-        $model->save();
-        return response()->json($model);
+        $validator = Validator::make($request->all(), [
+            'name' => [ 'required', Rule::unique('topping')->ignore($id),],
+            'price' => 'required',
+
+        ]);
+        if ($validator->fails()) {
+            return response()->json(false);
+        }
+        else{
+            $model = ToppingModel::find($id);
+            $model->fill($request->all());
+            $model->save();
+            return response()->json(true);
+        }
     }
 
     public function destroy($id)

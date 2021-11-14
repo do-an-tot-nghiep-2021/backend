@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\BuildingModel;
+use App\Models\CategoryModel;
+use App\Models\ClassroomModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class BuildingController extends Controller
 {
@@ -16,9 +20,18 @@ class BuildingController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->all();
-        $building = BuildingModel::create($data);
-        return response()->json($building);
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:building|max:255',
+
+        ]);
+        if ($validator->fails()) {
+            return response()->json(false);
+        }
+        else{
+            $data = $request->all();
+            BuildingModel::create($data);
+            return response()->json(true);
+        }
     }
 
     public function show($id)
@@ -27,12 +40,27 @@ class BuildingController extends Controller
         return response()->json($building);
     }
 
+    public function showClass($id)
+    {
+        $class = DB::table('classroom')->where('building_id', $id)->get();
+        return response()->json($class);
+    }
+
     public function update(Request $request, $id)
     {
-        $data = $request->all();
-        $building = BuildingModel::find($id);
-        $building->update($data);
-        return response()->json($building);
+        $validator = Validator::make($request->all(), [
+            'name' => [ 'required', Rule::unique('building')->ignore($id),],
+
+        ]);
+        if ($validator->fails()) {
+            return response()->json(false);
+        }
+        else{
+            $data = $request->all();
+            $building = BuildingModel::find($id);
+            $building->update($data);
+            return response()->json(true);
+        }
     }
 
     public function destroy($id)
