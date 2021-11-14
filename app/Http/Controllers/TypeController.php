@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\TypeModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class TypeController extends Controller
 {
@@ -15,9 +17,17 @@ class TypeController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->all();
-        $type = TypeModel::create($data);
-        return response()->json($type);
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:types|max:255',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(false);
+        }
+        else{
+            $data = $request->all();
+            TypeModel::create($data);
+            return response()->json(true);
+        }
     }
 
     public function show($id)
@@ -28,10 +38,18 @@ class TypeController extends Controller
 
     public function update(Request $request, $id)
     {
-        $data = $request->all();
-        $type = TypeModel::find($id);
-        $type->update($data);
-        return response()->json($type);
+        $validator = Validator::make($request->all(), [
+            'name' => [ 'required', Rule::unique('types')->ignore($id),],
+        ]);
+        if ($validator->fails()) {
+            return response()->json(false);
+        }
+        else{
+            $data = $request->all();
+            $type = TypeModel::find($id);
+            $type->update($data);
+            return response()->json(true);
+        }
     }
 
     public function destroy($id)

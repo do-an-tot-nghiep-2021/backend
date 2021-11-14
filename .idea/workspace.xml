@@ -20,8 +20,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35fa2d84-f40f-4e2c-95ae-181fe3a3160c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/config/common.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/ToppingModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ToppingModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BuildingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BuildingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CategoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ClassroomController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClassroomController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrderController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ProductsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProductsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SizeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SizeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ToppingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ToppingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TypeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TypeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/OrderModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/OrderModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_10_06_075423_create_table_products.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_10_06_075423_create_table_products.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -163,7 +173,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Mixifan/database/migrations" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Mixifan" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -204,6 +214,9 @@
       <workItem from="1636037987643" duration="2619000" />
       <workItem from="1636203023405" duration="13473000" />
       <workItem from="1636251587777" duration="10991000" />
+      <workItem from="1636513495350" duration="13253000" />
+      <workItem from="1636556187231" duration="7211000" />
+      <workItem from="1636710140508" duration="22300000" />
     </task>
     <servers />
   </component>
@@ -223,18 +236,18 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="413" y="124" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1636295553945">
+    <state x="413" y="124" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1636819347474">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="413" y="124" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.738@0.0.1366.738" timestamp="1636295553945" />
-    <state x="463" y="124" key="FileChooserDialogImpl" timestamp="1636208448884">
+    <state x="413" y="124" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.738@0.0.1366.738" timestamp="1636819347474" />
+    <state x="463" y="124" key="FileChooserDialogImpl" timestamp="1636816216914">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="463" y="124" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1636208448884" />
-    <state x="517" y="288" key="NewPhpFileDialog" timestamp="1634225444872">
+    <state x="463" y="124" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1636816216914" />
+    <state x="517" y="288" key="NewPhpFileDialog" timestamp="1636816393875">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="517" y="288" key="NewPhpFileDialog/0.0.1366.738@0.0.1366.738" timestamp="1634225444872" />
+    <state x="517" y="288" key="NewPhpFileDialog/0.0.1366.738@0.0.1366.738" timestamp="1636816393875" />
     <state x="346" y="59" width="672" height="678" key="search.everywhere.popup" timestamp="1636253702639">
       <screen x="0" y="0" width="1366" height="738" />
     </state>

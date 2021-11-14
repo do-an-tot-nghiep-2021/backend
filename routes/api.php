@@ -42,16 +42,19 @@ Route::prefix('topping')->group(function() {
     Route::delete('/{id}', 'ToppingController@destroy');
 });
 Route::prefix('size')->group(function() {
+    Route::group(['middleware' => 'auth.jwt'], function () {
+        Route::put('/{id}', 'SizeController@update');
+        Route::put('/delete/{id}', 'SizeController@destroy');
+        Route::post('/create', 'SizeController@store');
+    });
     Route::get('/', 'SizeController@index');
-    Route::post('/create', 'SizeController@store');
     Route::get('/{id}', 'SizeController@show');
-    Route::put('/{id}', 'SizeController@update');
-    Route::delete('/{id}', 'SizeController@destroy');
 });
 Route::prefix('building')->group(function() {
     Route::get('/', 'BuildingController@index');
     Route::post('/create', 'BuildingController@store');
     Route::get('/{id}', 'BuildingController@show');
+    Route::get('/class/{id}', 'BuildingController@showClass');
     Route::put('/{id}', 'BuildingController@update');
     Route::delete('/{id}', 'BuildingController@destroy');
 });
@@ -66,15 +69,16 @@ Route::prefix('product_topping')->group(function() {
     Route::get('/', 'ProductToppingController@index');
 });
 Route::post('/register', 'UserController@store');
-Route::prefix('admin')->group(function() {
-    Route::post('/login', 'AdminController@login');
-    Route::group(['middleware' => 'auth.jwt'], function () {
-        Route::get('logout', 'APIController@logout');
-        Route::get('users/{token}', 'UserController@index');
-    });
+Route::post('/login', 'AdminController@login');
+Route::group(['middleware' => 'auth.jwt'], function () {
+    Route::post('logout', 'AdminController@logout');
+    Route::get('/users/{token}', 'UserController@index');
 });
 Route::prefix('order')->group(function() {
-    Route::get('/{id}', 'OrderController@index');
+    Route::get('/', 'OrderController@index');
+    Route::get('/{id}', 'OrderController@showId');
+    Route::put('/{id}', 'OrderController@update');
+    Route::post('/customer', 'OrderController@show');
     Route::post('/create', 'OrderController@store');
 });
 Route::post('/uploads', 'UploadController@binary')->name('uploads.binary');
