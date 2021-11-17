@@ -20,18 +20,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35fa2d84-f40f-4e2c-95ae-181fe3a3160c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/config/common.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/backend.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BuildingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BuildingController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CategoryController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ClassroomController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClassroomController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ProductsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProductsController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SizeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SizeController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ToppingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ToppingController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TypeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TypeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/OrderModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/OrderModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/services.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_10_05_072638_create_table_categories.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_10_05_072638_create_table_categories.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/migrations/2021_10_06_075423_create_table_products.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_10_06_075423_create_table_products.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_10_06_150615_create_table_types.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_10_06_150615_create_table_types.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_10_07_160548_create_table_building.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_10_07_160548_create_table_building.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_10_07_160618_create_table_classroom.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_10_07_160618_create_table_classroom.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_10_07_160646_create_table_topping.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_10_07_160646_create_table_topping.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_10_13_025400_create_table_product_topping.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_10_13_025400_create_table_product_topping.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_10_13_025417_create_table_product_types.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_10_13_025417_create_table_product_types.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_11_06_130524_create_table_order_detail.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_11_06_130524_create_table_order_detail.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_11_06_130555_create_table_order_detail_topping.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_11_06_130555_create_table_order_detail_topping.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_11_07_141451_create_table_size.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_11_07_141451_create_table_size.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_11_07_141719_create_table_product_size.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_11_07_141719_create_table_product_size.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -163,6 +177,8 @@
       <path value="$PROJECT_DIR$/vendor/paragonie/random_compat" />
       <path value="$PROJECT_DIR$/vendor/tymon/jwt-auth" />
       <path value="$PROJECT_DIR$/vendor/namshi/jose" />
+      <path value="$PROJECT_DIR$/vendor/league/oauth1-client" />
+      <path value="$PROJECT_DIR$/vendor/laravel/socialite" />
     </include_path>
   </component>
   <component name="ProjectId" id="1z4rKBWU7sKFaKjidCbYHwTc73i" />
@@ -173,7 +189,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Mixifan" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../kensetsu_pad-master/database/migrations" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -216,7 +232,8 @@
       <workItem from="1636251587777" duration="10991000" />
       <workItem from="1636513495350" duration="13253000" />
       <workItem from="1636556187231" duration="7211000" />
-      <workItem from="1636710140508" duration="22300000" />
+      <workItem from="1636710140508" duration="34245000" />
+      <workItem from="1637152867207" duration="13499000" />
     </task>
     <servers />
   </component>
@@ -236,21 +253,21 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="413" y="124" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1636819347474">
+    <state x="413" y="124" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1637161938819">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="413" y="124" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.738@0.0.1366.738" timestamp="1636819347474" />
-    <state x="463" y="124" key="FileChooserDialogImpl" timestamp="1636816216914">
+    <state x="413" y="124" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.738@0.0.1366.738" timestamp="1637161938819" />
+    <state x="463" y="124" key="FileChooserDialogImpl" timestamp="1637156600200">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="463" y="124" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1636816216914" />
+    <state x="463" y="124" key="FileChooserDialogImpl/0.0.1366.738@0.0.1366.738" timestamp="1637156600200" />
     <state x="517" y="288" key="NewPhpFileDialog" timestamp="1636816393875">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="517" y="288" key="NewPhpFileDialog/0.0.1366.738@0.0.1366.738" timestamp="1636816393875" />
-    <state x="346" y="59" width="672" height="678" key="search.everywhere.popup" timestamp="1636253702639">
+    <state x="346" y="59" width="672" height="678" key="search.everywhere.popup" timestamp="1636886679284">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
-    <state x="346" y="59" width="672" height="678" key="search.everywhere.popup/0.0.1366.738@0.0.1366.738" timestamp="1636253702639" />
+    <state x="346" y="59" width="672" height="678" key="search.everywhere.popup/0.0.1366.738@0.0.1366.738" timestamp="1636886679284" />
   </component>
 </project>

@@ -18,20 +18,22 @@ class ClassroomController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:classroom|max:255',
-            'building_id' => 'required',
-
-        ]);
-        if ($validator->fails()) {
-            return response()->json(false);
+        if ($request->user['role'] == 10) {
+            $validator = Validator::make($request->all(), [
+                'token' => 'required',
+                'name' => 'required|unique:classroom|max:255',
+                'building_id' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(["status" => false, "message" => "Tên đã được sử dụng"]);
+            } else {
+                $data = $request->all();
+                ClassroomModel::create($data);
+                return response()->json(["status" => true, "message" => "Thêm thành công"]);
+            }
+        }else {
+            return response()->json(["status" => false, "message" => "Thêm thất bại"]);
         }
-        else{
-            $data = $request->all();
-            ClassroomModel::create($data);
-            return response()->json(true);
-        }
-
     }
 
     public function show($id)
@@ -42,26 +44,40 @@ class ClassroomController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => [ 'required', Rule::unique('classroom')->ignore($id), ],
-            'building_id' => 'required',
-
-        ]);
-        if ($validator->fails()) {
+        if ($request->user['role'] == 10) {
+            $validator = Validator::make($request->all(), [
+                'token' => 'required',
+                'name' => [ 'required', Rule::unique('classroom')->ignore($id), ],
+                'building_id' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(["status" => false, "message" => "Tên đã được sử dụng"]);
+            } else {
+                $data = $request->all();
+                $classroom = ClassroomModel::find($id);
+                $classroom->update($data);
+                return response()->json(["status" => true, "message" => "Cập nhật thành công"]);
+            }
+        }else{
             return response()->json(false);
-        }
-        else{
-            $data = $request->all();
-            $classroom = ClassroomModel::find($id);
-            $classroom->update($data);
-            return response()->json(true);
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $classroom = ClassroomModel::find($id);
-        $deleted = $classroom->delete();
-        return response()->json($deleted);
+        if ($request->user['role'] == 10) {
+            $validator = Validator::make($request->all(), [
+                'token' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(false);
+            } else {
+                $classroom = ClassroomModel::find($id);
+                $classroom->delete();
+                return response()->json(true);
+            }
+        }else{
+            return response()->json(false);
+        }
     }
 }

@@ -17,7 +17,6 @@ class CreateTableOrderDetailTopping extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('order_detail_id');
-            $table->foreign('order_detail_id')->references('id')->on('order_detail');
             $table->timestamps();
         });
     }

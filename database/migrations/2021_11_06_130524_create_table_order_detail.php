@@ -20,7 +20,6 @@ class CreateTableOrderDetail extends Migration
             $table->text('image');
             $table->integer('price');
             $table->unsignedBigInteger('order_id');
-            $table->foreign('order_id')->references('id')->on('orders');
             $table->timestamps();
         });
     }

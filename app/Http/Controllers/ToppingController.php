@@ -17,19 +17,23 @@ class ToppingController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:topping|max:255',
-            'price' => 'required',
+        if ($request->user['role'] == 10) {
+            $validator = Validator::make($request->all(), [
+                'token' => 'required',
+                'name' => 'required|unique:topping|max:255',
+                "price" => 'required'
+            ]);
+            if ($validator->fails()) {
+                return response()->json(["status" => false, "message" => "Tên đã được sử dụng"]);
+            } else {
+                $data = $request->all();
+                ToppingModel::create($data);
+                return response()->json(["status" => true, "message" => "Thêm thành công"]);
+            }
+        }else {
+            return response()->json(["status" => false, "message" => "Thêm thất bại"]);
+        }
 
-        ]);
-        if ($validator->fails()) {
-            return response()->json(false);
-        }
-        else{
-            $data = $request->all();
-            ToppingModel::create($data);
-            return response()->json(true);
-        }
     }
 
     public function show($id)
@@ -40,26 +44,40 @@ class ToppingController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => [ 'required', Rule::unique('topping')->ignore($id),],
-            'price' => 'required',
-
-        ]);
-        if ($validator->fails()) {
+        if ($request->user['role'] == 10) {
+            $validator = Validator::make($request->all(), [
+                'name' => [ 'required', Rule::unique('topping')->ignore($id),],
+                'price' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(["status" => false, "message" => "Tên đã được sử dụng"]);
+            } else {
+                $data = $request->all();
+                $type = ToppingModel::find($id);
+                $type->update($data);
+                return response()->json(["status" => true, "message" => "Cập nhật thành công"]);
+            }
+        }else{
             return response()->json(false);
-        }
-        else{
-            $model = ToppingModel::find($id);
-            $model->fill($request->all());
-            $model->save();
-            return response()->json(true);
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $Topping = ToppingModel::find($id);
-        $deleted = $Topping->delete();
-        return response()->json($deleted);
+        if ($request->user['role'] == 10) {
+            $validator = Validator::make($request->all(), [
+                'token' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(false);
+            } else {
+                $Topping = ToppingModel::find($id);
+                $Topping->delete();
+                return response()->json(true);
+            }
+        }else{
+            return response()->json(false);
+        }
+
     }
 }

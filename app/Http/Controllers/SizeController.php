@@ -20,6 +20,7 @@ class SizeController extends Controller
     {
         if ($request->user['role'] == 10) {
             $validator = Validator::make($request->all(), [
+                'token' => 'required',
                 'name' => 'required|unique:size|max:255',
                 'price' => 'required',
 
