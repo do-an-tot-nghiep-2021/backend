@@ -19,18 +19,21 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:categories|max:255',
-            'image' => 'required',
-
-        ]);
-        if ($validator->fails()) {
-            return response()->json(false);
-        }
-        else{
-            $data = $request->all();
-            CategoryModel::create($data);
-            return response()->json(true);
+        if ($request->user['role'] == 10) {
+            $validator = Validator::make($request->all(), [
+                'token' => 'required',
+                'name' => 'required|unique:categories|max:255',
+                'image' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(["status" => false, "message" => "Tên đã được sử dụng"]);
+            } else {
+                $data = $request->all();
+                CategoryModel::create($data);
+                return response()->json(["status" => true, "message" => "Thêm thành công"]);
+            }
+        }else {
+            return response()->json(["status" => false, "message" => "Thêm thất bại"]);
         }
     }
 
@@ -42,27 +45,41 @@ class CategoryController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => [ 'required', Rule::unique('categories')->ignore($id),],
-            'image' => 'required',
-
-        ]);
-        if ($validator->fails()) {
+        if ($request->user['role'] == 10) {
+            $validator = Validator::make($request->all(), [
+                'token' => 'required',
+                'name' => [ 'required', Rule::unique('categories')->ignore($id),],
+                'image' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(["status" => false, "message" => "Tên đã được sử dụng"]);
+            } else {
+                $data = $request->all();
+                $cate = CategoryModel::find($id);
+                $cate->update($data);
+                return response()->json(["status" => true, "message" => "Cập nhật thành công"]);
+            }
+        }else{
             return response()->json(false);
-        }
-        else{
-            $data = $request->all();
-            $cate = CategoryModel::find($id);
-            $cate->update($data);
-            return response()->json(true);
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        DB::table('products')->where('cate_id', $id)->delete();
-        $cate = CategoryModel::find($id);
-        $deleted = $cate->delete();
-        return response()->json($deleted);
+        if ($request->user['role'] == 10) {
+            $validator = Validator::make($request->all(), [
+                'token' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(false);
+            } else {
+                DB::table('products')->where('cate_id', $id)->delete();
+                $cate = CategoryModel::find($id);
+                $cate->delete();
+                return response()->json(true);
+            }
+        }else{
+            return response()->json(false);
+        }
     }
 }

@@ -14,11 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::prefix('category')->group(function() {
+    Route::group(['middleware' => 'auth.jwt'], function () {
+        Route::put('/{id}', 'CategoryController@update');
+        Route::put('/delete/{id}', 'CategoryController@destroy');
+        Route::post('/create', 'CategoryController@store');
+    });
     Route::get('/', 'CategoryController@index');
-    Route::post('/create', 'CategoryController@store');
     Route::get('/{id}', 'CategoryController@show');
-    Route::put('/{id}', 'CategoryController@update');
-    Route::delete('/{id}', 'CategoryController@destroy');
 });
 Route::prefix('product')->group(function() {
     Route::get('/', 'ProductsController@index');
@@ -28,18 +30,23 @@ Route::prefix('product')->group(function() {
     Route::delete('/{id}', 'ProductsController@destroy');
 });
 Route::prefix('type')->group(function() {
+    Route::group(['middleware' => 'auth.jwt'], function () {
+        Route::put('/{id}', 'TypeController@update');
+        Route::put('/delete/{id}', 'TypeController@destroy');
+        Route::post('/create', 'TypeController@store');
+    });
     Route::get('/', 'TypeController@index');
-    Route::post('/create', 'TypeController@store');
     Route::get('/{id}', 'TypeController@show');
-    Route::put('/{id}', 'TypeController@update');
-    Route::delete('/{id}', 'TypeController@destroy');
+
 });
 Route::prefix('topping')->group(function() {
+    Route::group(['middleware' => 'auth.jwt'], function () {
+        Route::put('/delete/{id}', 'ToppingController@destroy');
+        Route::put('/{id}', 'ToppingController@update');
+        Route::post('/create', 'ToppingController@store');
+    });
     Route::get('/', 'ToppingController@index');
-    Route::post('/create', 'ToppingController@store');
     Route::get('/{id}', 'ToppingController@show');
-    Route::put('/{id}', 'ToppingController@update');
-    Route::delete('/{id}', 'ToppingController@destroy');
 });
 Route::prefix('size')->group(function() {
     Route::group(['middleware' => 'auth.jwt'], function () {
@@ -51,19 +58,23 @@ Route::prefix('size')->group(function() {
     Route::get('/{id}', 'SizeController@show');
 });
 Route::prefix('building')->group(function() {
+    Route::group(['middleware' => 'auth.jwt'], function () {
+        Route::put('/{id}', 'BuildingController@update');
+        Route::put('/delete/{id}', 'BuildingController@destroy');
+        Route::post('/create', 'BuildingController@store');
+    });
     Route::get('/', 'BuildingController@index');
-    Route::post('/create', 'BuildingController@store');
     Route::get('/{id}', 'BuildingController@show');
     Route::get('/class/{id}', 'BuildingController@showClass');
-    Route::put('/{id}', 'BuildingController@update');
-    Route::delete('/{id}', 'BuildingController@destroy');
 });
 Route::prefix('classroom')->group(function() {
+    Route::group(['middleware' => 'auth.jwt'], function () {
+        Route::put('/{id}', 'ClassroomController@update');
+        Route::put('/delete/{id}', 'ClassroomController@destroy');
+        Route::post('/create', 'ClassroomController@store');
+    });
     Route::get('/', 'ClassroomController@index');
-    Route::post('/create', 'ClassroomController@store');
     Route::get('/{id}', 'ClassroomController@show');
-    Route::put('/{id}', 'ClassroomController@update');
-    Route::delete('/{id}', 'ClassroomController@destroy');
 });
 Route::prefix('product_topping')->group(function() {
     Route::get('/', 'ProductToppingController@index');
@@ -82,3 +93,5 @@ Route::prefix('order')->group(function() {
     Route::post('/create', 'OrderController@store');
 });
 Route::post('/uploads', 'UploadController@binary')->name('uploads.binary');
+Route::get('/google/url', 'UserController@loginUrl')->name('login_gg');
+Route::get('/callback/google', 'UserController@loginCallback');

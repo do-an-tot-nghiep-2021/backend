@@ -20,18 +20,22 @@ class BuildingController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:building|max:255',
+        if ($request->user['role'] == 10) {
+            $validator = Validator::make($request->all(), [
+                'token' => 'required',
+                'name' => 'required|unique:building|max:255',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(["status" => false, "message" => "Tên đã được sử dụng"]);
+            } else {
+                $data = $request->all();
+                BuildingModel::create($data);
+                return response()->json(["status" => true, "message" => "Thêm thành công"]);
+            }
+        }else {
+            return response()->json(["status" => false, "message" => "Thêm thất bại"]);
+        }
 
-        ]);
-        if ($validator->fails()) {
-            return response()->json(false);
-        }
-        else{
-            $data = $request->all();
-            BuildingModel::create($data);
-            return response()->json(true);
-        }
     }
 
     public function show($id)
@@ -48,26 +52,40 @@ class BuildingController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => [ 'required', Rule::unique('building')->ignore($id),],
-
-        ]);
-        if ($validator->fails()) {
+        if ($request->user['role'] == 10) {
+            $validator = Validator::make($request->all(), [
+                'token' => 'required',
+                'name' => [ 'required', Rule::unique('building')->ignore($id),],
+            ]);
+            if ($validator->fails()) {
+                return response()->json(["status" => false, "message" => "Tên đã được sử dụng"]);
+            } else {
+                $data = $request->all();
+                $building = BuildingModel::find($id);
+                $building->update($data);
+                return response()->json(["status" => true, "message" => "Cập nhật thành công"]);
+            }
+        }else{
             return response()->json(false);
-        }
-        else{
-            $data = $request->all();
-            $building = BuildingModel::find($id);
-            $building->update($data);
-            return response()->json(true);
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        DB::table('classroom')->where('building_id', $id)->delete();
-        $building = BuildingModel::find($id);
-        $deleted = $building->delete();
-        return response()->json($deleted);
+        if ($request->user['role'] == 10) {
+            $validator = Validator::make($request->all(), [
+                'token' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(false);
+            } else {
+                DB::table('classroom')->where('building_id', $id)->delete();
+                $building = BuildingModel::find($id);
+                $building->delete();
+                return response()->json(true);
+            }
+        }else{
+            return response()->json(false);
+        }
     }
 }

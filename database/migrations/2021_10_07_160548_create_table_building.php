@@ -15,7 +15,7 @@ class CreateTableBuilding extends Migration
     {
         Schema::create('building', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->timestamps();
         });
     }
