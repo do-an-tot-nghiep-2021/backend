@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableSize extends Migration
+class AfterTableOrderDetailAddColumsType extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateTableSize extends Migration
      */
     public function up()
     {
-        Schema::create('size', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->integer('price');
-            $table->timestamps();
+        Schema::table('order_detail', function (Blueprint $table) {
+            $table->string('type')->nullable();
         });
     }
 
@@ -28,6 +25,8 @@ class CreateTableSize extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('size');
+        Schema::table('order_detail', function (Blueprint $table) {
+            $table->dropColumn('type');
+        });
     }
 }
