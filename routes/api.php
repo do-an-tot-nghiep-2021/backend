@@ -48,15 +48,6 @@ Route::prefix('topping')->group(function() {
     Route::get('/', 'ToppingController@index');
     Route::get('/{id}', 'ToppingController@show');
 });
-Route::prefix('size')->group(function() {
-    Route::group(['middleware' => 'auth.jwt'], function () {
-        Route::put('/{id}', 'SizeController@update');
-        Route::put('/delete/{id}', 'SizeController@destroy');
-        Route::post('/create', 'SizeController@store');
-    });
-    Route::get('/', 'SizeController@index');
-    Route::get('/{id}', 'SizeController@show');
-});
 Route::prefix('building')->group(function() {
     Route::group(['middleware' => 'auth.jwt'], function () {
         Route::put('/{id}', 'BuildingController@update');
@@ -86,10 +77,12 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('/users/{token}', 'UserController@index');
 });
 Route::prefix('order')->group(function() {
-    Route::get('/', 'OrderController@index');
     Route::get('/{id}', 'OrderController@showId');
     Route::put('/{id}', 'OrderController@update');
-    Route::post('/customer', 'OrderController@show');
+    Route::group(['middleware' => 'auth.jwt'], function () {
+        Route::post('/', 'OrderController@index');
+        Route::post('/customer', 'OrderController@show');
+    });
     Route::post('/create', 'OrderController@store');
 });
 Route::post('/uploads', 'UploadController@binary')->name('uploads.binary');

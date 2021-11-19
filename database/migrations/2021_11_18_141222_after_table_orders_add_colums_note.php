@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableProductSize extends Migration
+class AfterTableOrdersAddColumsNote extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateTableProductSize extends Migration
      */
     public function up()
     {
-        Schema::create('product_size', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('size_id');
-            $table->unsignedBigInteger('product_id');
-            $table->timestamps();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->text('note')->nullable();
         });
     }
 
@@ -28,6 +25,8 @@ class CreateTableProductSize extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_size');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropColumn('note');
+        });
     }
 }
