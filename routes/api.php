@@ -27,6 +27,7 @@ Route::prefix('product')->group(function() {
     Route::post('/create', 'ProductsController@store');
     Route::get('/{id}', 'ProductsController@show');
     Route::put('/{id}', 'ProductsController@update');
+    Route::put('/category/{id}', 'ProductsController@showProductCate');
     Route::delete('/{id}', 'ProductsController@destroy');
 });
 Route::prefix('type')->group(function() {
