@@ -20,7 +20,11 @@ class ProductsController extends Controller
         return response()->json($products);
     }
 
-
+    public function showProductCate($id)
+    {
+        $products = ProductsModel::with('category')->where('cate_id', $id)->get();
+        return response()->json($products);
+    }
 
     public function store(Request $request)
     {
