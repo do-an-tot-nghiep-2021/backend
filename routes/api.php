@@ -25,7 +25,7 @@ Route::prefix('category')->group(function() {
 Route::prefix('product')->group(function() {
     Route::get('/', 'ProductsController@index');
     Route::post('/create', 'ProductsController@store');
-    Route::get('/keyword/{kw}', 'ProductsController@getKeyword');
+    Route::post('/keyword', 'ProductsController@getKeyword');
     Route::get('/{id}', 'ProductsController@show');
     Route::put('/{id}', 'ProductsController@update');
     Route::get('/category/{id}', 'ProductsController@showProductCate');

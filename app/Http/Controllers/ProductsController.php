@@ -26,9 +26,9 @@ class ProductsController extends Controller
         return response()->json($products);
     }
 
-    public function getKeyword($kw)
+    public function getKeyword(Request $request)
     {
-        $products = ProductsModel::where('name', 'like', "%".$kw."%")->get();
+        $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->get();
         $products->load('category');
         return response()->json($products);
     }
