@@ -26,6 +26,13 @@ class ProductsController extends Controller
         return response()->json($products);
     }
 
+    public function getKeyword($kw)
+    {
+        $products = ProductsModel::where('name', 'like', "%".$kw."%")->get();
+        $products->load('category');
+        return response()->json($products);
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
