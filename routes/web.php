@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('mail-view');
+});
+Route::get('/mail', function () {
+    return view('new-mail');
 });
 

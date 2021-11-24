@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderMail;
 use App\Models\OrderDetailModel;
 use App\Models\OrderDetailToppingModel;
 use App\Models\OrderDetailTypeModel;
 use App\Models\OrderModel;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -74,6 +77,24 @@ class OrderController extends Controller
             }
 
         }
+        $building = DB::table('building')->where('id', $order->building)->first();
+        $classroom = DB::table('classroom')->where('id', $order->classroom)->first();
+
+        $user = User::find($order->user_id);
+        $order_send_product = DB::table('order_detail')->where('order_id', $order->id)->get();
+        foreach ($order_send_product as $items) {
+            $topping = DB::table('order_detail_topping')->where('order_detail_id', $items->id)->get();
+            $items->topping = $topping;
+        }
+        $payment = config('common.payment');
+        $send_order = new \stdClass();
+        $send_order->total_price = $order->price_total;
+        $send_order->total_item = $order->item_total;
+        $send_order->payment = $payment[$order->payment];
+        $send_order->classroom = $classroom->name;
+        $send_order->building = $building->name;
+        $send_order->product = $order_send_product;
+        Mail::to($user->email)->send(new OrderMail($send_order));
 
         return response()->json(["status" => true]);
     }
