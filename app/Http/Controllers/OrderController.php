@@ -49,6 +49,9 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
+        $users_data = User::find($request->userId);
+        $users_data->point = $users_data->point + $request->total;
+        $users_data->save();
         $order = OrderModel::create([
             'user_id' => $request->userId,
             'building' => $request->building,
@@ -75,7 +78,6 @@ class OrderController extends Controller
                     ]);
                 }
             }
-
         }
         $building = DB::table('building')->where('id', $order->building)->first();
         $classroom = DB::table('classroom')->where('id', $order->classroom)->first();
@@ -102,7 +104,7 @@ class OrderController extends Controller
     public function show(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'token' => 'required',
+            'google_id' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(false);
