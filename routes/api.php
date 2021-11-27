@@ -81,12 +81,21 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 Route::prefix('order')->group(function() {
     Route::get('/{id}', 'OrderController@showId');
     Route::put('/{id}', 'OrderController@update');
+    Route::post('/customer', 'OrderController@show');
     Route::group(['middleware' => 'auth.jwt'], function () {
         Route::post('/', 'OrderController@index');
-        Route::post('/customer', 'OrderController@show');
     });
     Route::post('/create', 'OrderController@store');
 });
+Route::prefix('voucher')->group(function() {
+    Route::group(['middleware' => 'auth.jwt'], function () {
+        Route::put('/{id}', 'VoucherController@update');
+        Route::put('/delete/{id}', 'VoucherController@destroy');
+        Route::post('/create', 'VoucherController@store');
+    });
+    Route::get('/', 'VoucherController@index');
+    Route::get('/{id}', 'VoucherController@show');
+});
 Route::post('/uploads', 'UploadController@binary')->name('uploads.binary');
-Route::get('/google/url', 'UserController@loginUrl')->name('login_gg');
+Route::post('/google/data', 'UserController@storeDataGoogle');
 Route::get('/callback/google', 'UserController@loginCallback');
