@@ -23,13 +23,15 @@ Route::prefix('category')->group(function() {
     Route::get('/{id}', 'CategoryController@show');
 });
 Route::prefix('product')->group(function() {
+    Route::group(['middleware' => 'auth.jwt'], function () {
+        Route::post('/create', 'ProductsController@store');
+        Route::put('/{id}', 'ProductsController@update');
+        Route::put('/delete/{id}', 'ProductsController@destroy');
+    });
     Route::get('/', 'ProductsController@index');
-    Route::post('/create', 'ProductsController@store');
     Route::post('/keyword', 'ProductsController@getKeyword');
     Route::get('/{id}', 'ProductsController@show');
-    Route::put('/{id}', 'ProductsController@update');
     Route::get('/category/{id}', 'ProductsController@showProductCate');
-    Route::delete('/{id}', 'ProductsController@destroy');
 });
 Route::prefix('type')->group(function() {
     Route::group(['middleware' => 'auth.jwt'], function () {
@@ -77,6 +79,15 @@ Route::post('/login', 'AdminController@login');
 Route::group(['middleware' => 'auth.jwt'], function () {
     Route::post('logout', 'AdminController@logout');
     Route::get('/users/{token}', 'UserController@index');
+});
+Route::prefix('user')->group(function() {
+    Route::group(['middleware' => 'auth.jwt'], function () {
+         Route::post('/', 'UserController@getAll');
+        // Route::put('/delete/{id}', 'UserController@destroy');
+        // Route::post('/create', 'UserController@store');
+        // Route::get('/', 'UserController@index');
+        // Route::get('/{id}', 'UserController@show');
+    });
 });
 Route::prefix('order')->group(function() {
     Route::get('/{id}', 'OrderController@showId');

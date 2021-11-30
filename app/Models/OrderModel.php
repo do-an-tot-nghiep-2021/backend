@@ -10,7 +10,7 @@ class OrderModel extends Model
     protected $table = "orders";
 
     protected $fillable = [
-        'building','classroom','item_total','price_total','status','payment', 'user_id','note'
+        'building','classroom','item_total','price_total','phone','status','payment', 'user_id','note'
     ];
 
     public function building(){
