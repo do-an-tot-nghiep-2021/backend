@@ -8,7 +8,7 @@ class ProductsModel extends Model
 {
     protected $table = "products";
     protected $fillable = [
-        'name', 'image', 'price', 'description', 'cate_id'
+        'name', 'image', 'price', 'cate_id'
     ];
 
     public function productTopping(){

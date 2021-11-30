@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -57,6 +58,27 @@ class UserController extends Controller
             $user->save();
             return  response()->json($user);
         }
-    }      
+    }
+
+    public function getAll(Request $request){
+        if ($request->user['role'] == 10) {
+            $validator = Validator::make($request->all(), [
+                'token' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(["status" => false]);
+            } else {
+                if ($request->role == 0) {
+                    $users = User::all();
+                    return response()->json($users);
+                }else{
+                    $users = DB::table('users')->where('role', $request->role)->get();
+                    return response()->json($users);
+                }
+            }
+        }else {
+            return response()->json(["status" => false]);
+        }
+    }
 
 }

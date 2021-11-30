@@ -35,40 +35,38 @@ class ProductsController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:products|max:255',
-            'image' => 'required',
-            'price' => 'required',
-            'description' => 'required',
-            'cate_id' => 'required',
-
-        ]);
-        if ($validator->fails()) {
-            return response()->json(false);
-        }
-        else{
-            $product = ProductsModel::create([
-                'name' => $request->name,
-                'image' => $request->image,
-                'price'=> $request->price,
-                'description'=>$request->description,
-                'cate_id'=>$request->cate_id
+        if ($request->user['role'] == 10) {
+            $validator = Validator::make($request->all(), [
+                'token' => 'required',
+                'name' => 'required|unique:products|max:255',
+                'image' => 'required',
+                'price' => 'required',
+                'cate_id' => 'required',
             ]);
-            if (($request->topping_id) !== false) {
-                $product->productTopping()->attach(
-                    $request->topping_id
-                );
+            if ($validator->fails()) {
+                return response()->json(["status" => false, "message" => "Tên đã tồn tại, vui lòng chọn tên khác!"]);
+            } else {
+                $product = ProductsModel::create([
+                    'name' => $request->name,
+                    'image' => $request->image,
+                    'price'=> $request->price,
+                    'cate_id'=>$request->cate_id
+                ]);
+                if (($request->topping_id) !== false) {
+                    $product->productTopping()->attach(
+                        $request->topping_id
+                    );
+                }
+                if (($request->type_id) !== false) {
+                    $product->productType()->attach(
+                        $request->type_id
+                    );
+                }
+                return response()->json(["status" => true, "message" => "Thêm thành công"]);
             }
-            if (($request->type_id) !== false) {
-                $product->productType()->attach(
-                    $request->type_id
-                );
-            }
-            return response()->json(true);
+        }else {
+            return response()->json(["status" => false, "message" => "Thêm thất bại"]);
         }
-
-
-
     }
 
     public function show($id)
@@ -82,42 +80,55 @@ class ProductsController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => [ 'required', Rule::unique('products')->ignore($id), ],
-            'image' => 'required',
-            'price' => 'required',
-            'description' => 'required',
-            'cate_id' => 'required',
-
-        ]);
-        if ($validator->fails()) {
+        if ($request->user['role'] == 10) {
+            $validator = Validator::make($request->all(), [
+                'token' => 'required',
+                'name' => [ 'required', Rule::unique('products')->ignore($id), ],
+                'image' => 'required',
+                'price' => 'required',
+                'cate_id' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(["status" => false, "message" => "Tên đã tồn tại, vui lòng chọn tên khác!"]);
+            } else {
+                $product = ProductsModel::find($id);
+                if (($request->product_topping) !== ""){
+                    $product->productTopping()->sync(
+                        $request->product_topping
+                    );
+                }
+                if (($request->product_topping) !== "") {
+                    $product->productType()->sync(
+                        $request->product_type
+                    );
+                }
+                $product->fill($request->all());
+                $product->save();
+                return response()->json(["status" => true, "message" => "Cập nhật thành công"]);
+            }
+        }else{
             return response()->json(false);
-        }
-        else{
-            $product = ProductsModel::find($id);
-            if (($request->product_topping) !== ""){
-                $product->productTopping()->sync(
-                    $request->product_topping
-                );
-            }
-            if (($request->product_topping) !== "") {
-                $product->productType()->sync(
-                    $request->product_type
-                );
-            }
-            $product->fill($request->all());
-            $product->save();
-            return response()->json(true);
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $product = ProductsModel::find($id);
-        $product->productTopping()->detach();
-        $product->productType()->detach();
-        $deleted = $product->delete();
-        return response()->json($deleted);
+        if ($request->user['role'] == 10) {
+            $validator = Validator::make($request->all(), [
+                'token' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(false);
+            } else {
+                $product = ProductsModel::find($id);
+                $product->productTopping()->detach();
+                $product->productType()->detach();
+                $product->delete();
+                return response()->json(true);
+            }
+        }else{
+            return response()->json(false);
+        }
     }
 
 }

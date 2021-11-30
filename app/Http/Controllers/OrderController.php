@@ -30,6 +30,17 @@ class OrderController extends Controller
                 $orders->load('user');
                 foreach ($orders as $order) {
                     $status = config('common.status');
+                    if ($order->status == 1){
+                        $order->color = "m-badge m-badge--warning m-badge--wide";
+                    }elseif ($order->status == 2){
+                        $order->color = "m-badge m-badge--info m-badge--wide";
+                    }elseif ($order->status == 3){
+                        $order->color = "m-badge m-badge--primary m-badge--wide";
+                    }elseif ($order->status == 4){
+                        $order->color = "m-badge m-badge--success m-badge--wide";
+                    }else{
+                        $order->color = "m-badge m-badge--danger m-badge--wide";
+                    }
                     $payment = config('common.payment');
                     $order->status = $status[$order->status];
                     $order->payment = $payment[$order->payment];
@@ -59,7 +70,8 @@ class OrderController extends Controller
             'item_total'=> $request->itemCount,
             'price_total'=>$request->total,
             'payment'=>$request->payment,
-            'note'=>$request->note
+            'note'=>$request->note,
+            'phone'=>$request->phone
         ]);
         foreach($request->cartItems as $value){
             $order_detail =  OrderDetailModel::create([
@@ -109,8 +121,8 @@ class OrderController extends Controller
         if ($validator->fails()) {
             return response()->json(false);
         } else {
-            if($request->status){
-                $orders = DB::table('orders')->where('user_id', $request->id)->where('status', $request->status)->get();
+            if($request->status == 0){
+                $orders = DB::table('orders')->where('user_id', $request->id)->get();
                 foreach ($orders as $order){
                     $status = config('common.status');
                     $payment = config('common.payment');
@@ -126,7 +138,7 @@ class OrderController extends Controller
                 }
                 return response()->json($orders);
             }else {
-                $orders = DB::table('orders')->where('user_id', $request->id)->get();
+                $orders = DB::table('orders')->where('user_id', $request->id)->where('status', $request->status)->get();
                 foreach ($orders as $order) {
                     $status = config('common.status');
                     $payment = config('common.payment');
