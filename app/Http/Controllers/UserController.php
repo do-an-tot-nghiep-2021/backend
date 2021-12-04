@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Validation\Rule;
+
 
 class UserController extends Controller
 {
@@ -58,6 +60,34 @@ class UserController extends Controller
             $user->save();
             return  response()->json($user);
         }
+    }
+
+    public function getProfileGoogle(Request $request , $id){
+        $validator = Validator::make($request->all(), [
+            'google_id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(["status" => false]);
+        } else {
+            $user = User::find($id);
+            return response()->json($user);
+        }
+    }
+    public function updateProfileGoogle(Request $request , $id){
+        $validator = Validator::make($request->all(), [
+            'google_id' => 'required',
+            'phone' => [ 'required', Rule::unique('users')->ignore($id), ],
+        ]);
+        if ($validator->fails()) {
+            return response()->json(["status" => false, "message" => "Số điện thoại đã tồn tại, vui lòng chọn số khác!"]);
+        } else {
+            $user = User::find($id);
+            $user->fill($request->all());
+            $user->save();
+            $userNew = User::find($id);
+            return response()->json(["status" => true, "user" => $userNew]);
+        }
+
     }
 
     public function getAll(Request $request){
