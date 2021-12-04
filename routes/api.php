@@ -81,6 +81,8 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('/users/{token}', 'UserController@index');
 });
 Route::prefix('user')->group(function() {
+    Route::put('/{id}', 'UserController@updateProfileGoogle');
+    Route::put('/profile-google/{id}', 'UserController@getProfileGoogle');
     Route::group(['middleware' => 'auth.jwt'], function () {
          Route::post('/', 'UserController@getAll');
         // Route::put('/delete/{id}', 'UserController@destroy');
@@ -95,8 +97,10 @@ Route::prefix('order')->group(function() {
     Route::post('/customer', 'OrderController@show');
     Route::group(['middleware' => 'auth.jwt'], function () {
         Route::post('/', 'OrderController@index');
+        Route::post('/date', 'OrderController@getDate');
     });
     Route::post('/create', 'OrderController@store');
+    Route::post('/cancel', 'OrderController@cancel');
 });
 Route::prefix('voucher')->group(function() {
     Route::group(['middleware' => 'auth.jwt'], function () {
@@ -106,6 +110,8 @@ Route::prefix('voucher')->group(function() {
     });
     Route::get('/', 'VoucherController@index');
     Route::get('/{id}', 'VoucherController@show');
+    Route::post('/redeem', 'VoucherController@redeem');
+    Route::post('/account-id', 'VoucherController@voucherAccountId');
 });
 Route::post('/uploads', 'UploadController@binary')->name('uploads.binary');
 Route::post('/google/data', 'UserController@storeDataGoogle');

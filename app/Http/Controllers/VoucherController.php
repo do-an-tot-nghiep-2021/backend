@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\VoucherModel;
+use App\Models\VoucherUserModel;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -81,6 +84,53 @@ class VoucherController extends Controller
         }else{
             return response()->json(false);
         }
+    }
 
+    public function redeem(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'google_id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(false);
+        } else {
+            $user = User::find($request->user_id);
+            $voucher = VoucherModel::find($request->id);
+            $user_voucher = DB::table('voucher_user')->where('user_id', $request->user_id)->get();
+            $user_point = $user->point;
+            $voucher_point = $voucher->point;
+            if ($user_voucher->contains('voucher_id',$request->id)){
+                return response()->json(["status" => false, "message" => "Bạn đã có voucher này!"]);
+            }else {
+                if ($user_point >= $voucher_point) {
+                    $user->point = $user_point - $voucher_point;
+                    $user->save();
+                    $model = new VoucherUserModel();
+                    $model->user_id = $request->user_id;
+                    $model->voucher_id = $request->id;
+                    $model->save();
+                    return response()->json(["status" => true, "message" => "Đổi voucher thành công!"]);
+                } else {
+                    return response()->json(["status" => false, "message" => "Bạn chưa đủ điểm để đổi voucher này!"]);
+                }
+            }
+
+        }
+    }
+
+    public function voucherAccountId(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'google_id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(false);
+        } else {
+            $voucher_user = DB::table('voucher_user')->where('user_id', $request->user_id)->get();
+            foreach ($voucher_user as $items){
+                $items->voucher = DB::table('vouchers')->where('id', $items->voucher_id)->first();
+            }
+            return response()->json($voucher_user);
+        }
     }
 }
