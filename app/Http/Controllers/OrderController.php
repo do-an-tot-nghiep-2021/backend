@@ -231,10 +231,6 @@ class OrderController extends Controller
             return response()->json(false);
         }else{
             $order = OrderModel::find($request->id);
-            $point = $order->price_total;
-            $user = User::find($request->user_id);
-            $user->point = $user->point - $point;
-            $user->save();
             if ($order->user_id == $request->user_id) {
                 $order->status = $request->status;
                 $order->save();
