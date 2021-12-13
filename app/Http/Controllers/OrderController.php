@@ -70,10 +70,10 @@ class OrderController extends Controller
                 return response()->json(false);
             } else {
                 if ($request->date == 1){
-                    $orders = OrderModel::whereDate('created_at', Carbon::today())->get();
+                    $orders = OrderModel::whereDate('created_at', Carbon::today())->orderByDesc('created_at')->get();
                 }
                 else{
-                    $orders = OrderModel::whereDate('created_at', ">=" , Carbon::now()->subDays($request->date))->get();
+                    $orders = OrderModel::whereDate('created_at', ">=" , Carbon::now()->subDays($request->date))->orderByDesc('created_at')->get();
                 }
                 $orders->load('building');
                 $orders->load('classroom');
@@ -227,6 +227,11 @@ class OrderController extends Controller
             return response()->json(false);
         }else{
             $order = OrderModel::find($request->id);
+            $point = $order->price_total;
+            $user = new User();
+            $user->point = $user->point - $point;
+            $user->save();
+            
             if ($order->user_id == $request->user_id) {
                 $order->status = $request->status;
                 $order->save();
