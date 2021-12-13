@@ -120,9 +120,7 @@ class OrderController extends Controller
             $voucher = DB::table('voucher_user')->where('user_id', $request->userId)->where('voucher_id', $request->voucher);
             $voucher->delete();
         }
-        $users_data = User::find($request->userId);
-        $users_data->point = $users_data->point + $request->total;
-        $users_data->save();
+
         $order = OrderModel::create([
             'user_id' => $request->userId,
             'building' => $request->building,
@@ -214,6 +212,12 @@ class OrderController extends Controller
     {
         $data = $request->all();
         $order = OrderModel::find($id);
+        if ($request->status == 4){
+            $point = $order->price_total;
+            $user = User::find($order->user_id);
+            $user->point = $user->point + $point;
+            $user->save();
+        }
         $order->update($data);
         return response()->json(true);
     }
