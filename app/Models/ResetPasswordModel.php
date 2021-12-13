@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class VoucherModel extends Model
+class ResetPasswordModel extends Model
 {
-    protected $table = "vouchers";
+    protected $table = "reset_password";
     protected $fillable = [
-        'name','point', 'value','image'
+        'email','token',
     ];
 }

@@ -76,6 +76,8 @@ Route::prefix('product_topping')->group(function() {
 });
 Route::post('/register', 'UserController@store');
 Route::post('/login', 'AdminController@login');
+Route::post('/reset-pass','AdminController@resetPass');
+Route::post('/get-reset-pass','AdminController@getResetPass');
 Route::group(['middleware' => 'auth.jwt'], function () {
     Route::post('logout', 'AdminController@logout');
     Route::get('/users/{token}', 'UserController@index');
@@ -116,3 +118,7 @@ Route::prefix('voucher')->group(function() {
 Route::post('/uploads', 'UploadController@binary')->name('uploads.binary');
 Route::post('/google/data', 'UserController@storeDataGoogle');
 Route::get('/callback/google', 'UserController@loginCallback');
+Route::get('/export/order', function () {
+    return view('new-mail');
+});
+Route::post('/export/order', 'ExportExcelController@export');
