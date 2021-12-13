@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\VoucherModel;
+use App\Models\VoucherUserHistoryModel;
 use App\Models\VoucherUserModel;
 use App\User;
 use Illuminate\Http\Request;
@@ -25,7 +26,8 @@ class VoucherController extends Controller
                 'token' => 'required',
                 'name' => 'required|unique:vouchers|max:255',
                 "point" => 'required',
-                "value" => 'required'
+                "value" => 'required',
+                "image" => 'required',
             ]);
             if ($validator->fails()) {
                 return response()->json(["status" => false, "message" => "Tên đã được sử dụng"]);
@@ -54,6 +56,7 @@ class VoucherController extends Controller
                 'name' => [ 'required', Rule::unique('vouchers')->ignore($id),],
                 'point' => 'required',
                 'value' => 'required',
+                'image' => 'required',
             ]);
             if ($validator->fails()) {
                 return response()->json(["status" => false, "message" => "Tên đã được sử dụng"]);
@@ -97,18 +100,22 @@ class VoucherController extends Controller
             $user = User::find($request->user_id);
             $voucher = VoucherModel::find($request->id);
             $user_voucher = DB::table('voucher_user')->where('user_id', $request->user_id)->get();
+            $user_voucher_history = DB::table('voucher_user_history')->where('user_id', $request->user_id)->get();
             $user_point = $user->point;
             $voucher_point = $voucher->point;
             if ($user_voucher->contains('voucher_id',$request->id)){
-                return response()->json(["status" => false, "message" => "Bạn đã có voucher này!"]);
+                return response()->json(["status" => false, "message" => "Bạn chỉ được đổi voucher này một lần!"]);
+            }elseif ($user_voucher_history->contains('voucher_id',$request->id)){
+                return response()->json(["status" => false, "message" => "Bạn chỉ được sử dụng voucher này một lần!"]);
             }else {
                 if ($user_point >= $voucher_point) {
                     $user->point = $user_point - $voucher_point;
                     $user->save();
-                    $model = new VoucherUserModel();
-                    $model->user_id = $request->user_id;
-                    $model->voucher_id = $request->id;
-                    $model->save();
+                    $modelVoucher = new VoucherUserModel();
+                    $modelVoucher->user_id = $request->user_id;
+                    $modelVoucher->voucher_id = $request->id;
+                    $modelVoucher->save();
+
                     return response()->json(["status" => true, "message" => "Đổi voucher thành công!"]);
                 } else {
                     return response()->json(["status" => false, "message" => "Bạn chưa đủ điểm để đổi voucher này!"]);
@@ -126,7 +133,11 @@ class VoucherController extends Controller
         if ($validator->fails()) {
             return response()->json(false);
         } else {
-            $voucher_user = DB::table('voucher_user')->where('user_id', $request->user_id)->get();
+            if ($request->status == 1){
+                $voucher_user = DB::table('voucher_user')->where('user_id', $request->user_id)->get();
+            }else{
+                $voucher_user = DB::table('voucher_user_history')->where('user_id', $request->user_id)->get();
+            }
             foreach ($voucher_user as $items){
                 $items->voucher = DB::table('vouchers')->where('id', $items->voucher_id)->first();
             }

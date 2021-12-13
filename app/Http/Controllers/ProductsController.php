@@ -29,6 +29,31 @@ class ProductsController extends Controller
     public function getKeyword(Request $request)
     {
         $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->get();
+        if (isset($request->cate_id)) {
+            $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->where('cate_id', $request->cate_id)->get();
+        }
+        if (isset($request->filter)) {
+            if($request->filter == 1){
+                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->orderBy('name')->get();
+            }else if($request->filter == 2){
+                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->orderByDesc('name')->get();
+            }else if($request->filter == 3){
+                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->orderBy('price')->get();
+            }else{
+                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->orderByDesc('price')->get();
+            }
+        }
+        if ($request->filter > 0 && $request->cate_id > 0) {
+            if($request->filter == 1){
+                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->where('cate_id', $request->cate_id)->orderBy('name')->get();
+            }else if($request->filter == 2){
+                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->where('cate_id', $request->cate_id)->orderByDesc('name')->get();
+            }else if($request->filter == 3){
+                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->where('cate_id', $request->cate_id)->orderBy('price')->get();
+            }else{
+                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->where('cate_id', $request->cate_id)->orderByDesc('price')->get();
+            }
+        }
         $products->load('category');
         return response()->json($products);
     }
@@ -72,6 +97,7 @@ class ProductsController extends Controller
     public function show($id)
     {
         $product = ProductsModel::find($id);
+        $product->product_cate = ProductsModel::with('category')->where('cate_id', $product->cate_id)->get();
         $product->load('category');
         $product->load('productTopping');
         $product->load('productType');

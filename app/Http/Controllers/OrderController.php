@@ -7,6 +7,7 @@ use App\Models\OrderDetailModel;
 use App\Models\OrderDetailToppingModel;
 use App\Models\OrderDetailTypeModel;
 use App\Models\OrderModel;
+use App\Models\VoucherUserHistoryModel;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -112,6 +113,10 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         if(($request->voucher) != ""){
+            $modelVoucherHistory = new VoucherUserHistoryModel();
+            $modelVoucherHistory->user_id = $request->userId;
+            $modelVoucherHistory->voucher_id = $request->voucher;
+            $modelVoucherHistory->save();
             $voucher = DB::table('voucher_user')->where('user_id', $request->userId)->where('voucher_id', $request->voucher);
             $voucher->delete();
         }
