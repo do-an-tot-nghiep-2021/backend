@@ -11,7 +11,7 @@ class OrderModel extends Model
     protected $table = "orders";
 
     protected $fillable = [
-        'building','classroom','item_total','price_total','phone','status','payment', 'user_id','note'
+        'building','classroom','item_total','price_total','phone','status','payment', 'user_id','note','code_order'
     ];
 
     public function building(){

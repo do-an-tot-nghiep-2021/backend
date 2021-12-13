@@ -26,7 +26,37 @@ class OrderController extends Controller
             if ($validator->fails()) {
                 return response()->json(false);
             } else {
-                $orders = OrderModel::all();
+                $orders = OrderModel::where('code_order', 'like', "%".$request->keyword."%")->get();
+                if ($request->status > 0){
+                    $orders = OrderModel::where('code_order', 'like', "%".$request->keyword."%")
+                        ->where('status', $request->status)
+                        ->get();
+                }
+                if ($request->date > 0){
+                    if ($request->date == 1){
+                        $orders = OrderModel::where('code_order', 'like', "%".$request->keyword."%")
+                            ->whereDate('created_at', Carbon::today())
+                            ->get();
+                    }else {
+                        $orders = OrderModel::where('code_order', 'like', "%" . $request->keyword . "%")
+                            ->whereDate('created_at', ">=", Carbon::now()->subDays($request->date))
+                            ->get();
+                    }
+                }
+                if ($request->status > 0 && $request->date > 0) {
+                    if ($request->date == 1){
+                        $orders = OrderModel::where('code_order', 'like', "%".$request->keyword."%")
+                            ->whereDate('created_at', Carbon::today())
+                            ->where('status', $request->status)
+                            ->get();
+                    }else {
+                        $orders = OrderModel::where('code_order', 'like', "%".$request->keyword."%")
+                            ->whereDate('created_at', ">=" , Carbon::now()->subDays($request->date))
+                            ->where('status', $request->status)
+                            ->get();
+                    }
+
+                }
                 $orders->load('building');
                 $orders->load('classroom');
                 $orders->load('user');
@@ -129,7 +159,8 @@ class OrderController extends Controller
             'price_total'=>$request->total,
             'payment'=>$request->payment,
             'note'=>$request->note,
-            'phone'=>$request->phone
+            'phone'=>$request->phone,
+            'code_order' =>$request->code_order
         ]);
         foreach($request->cartItems as $value){
             $order_detail =  OrderDetailModel::create([
