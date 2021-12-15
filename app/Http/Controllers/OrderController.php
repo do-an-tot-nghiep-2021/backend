@@ -26,7 +26,44 @@ class OrderController extends Controller
             if ($validator->fails()) {
                 return response()->json(false);
             } else {
-                $orders = OrderModel::all();
+                $orders = OrderModel::where('code_order', 'like', "%".$request->keyword."%")
+                    ->orderByDesc('created_at')
+                    ->get();
+                if ($request->status > 0){
+                    $orders = OrderModel::where('code_order', 'like', "%".$request->keyword."%")
+                        ->where('status', $request->status)
+                        ->orderByDesc('created_at')
+                        ->get();
+                }
+                if ($request->date > 0){
+                    if ($request->date == 1){
+                        $orders = OrderModel::where('code_order', 'like', "%".$request->keyword."%")
+                            ->whereDate('created_at', Carbon::today())
+                            ->orderByDesc('created_at')
+                            ->get();
+                    }else {
+                        $orders = OrderModel::where('code_order', 'like', "%" . $request->keyword . "%")
+                            ->whereDate('created_at', ">=", Carbon::now()->subDays($request->date))
+                            ->orderByDesc('created_at')
+                            ->get();
+                    }
+                }
+                if ($request->status > 0 && $request->date > 0) {
+                    if ($request->date == 1){
+                        $orders = OrderModel::where('code_order', 'like', "%".$request->keyword."%")
+                            ->whereDate('created_at', Carbon::today())
+                            ->where('status', $request->status)
+                            ->orderByDesc('created_at')
+                            ->get();
+                    }else {
+                        $orders = OrderModel::where('code_order', 'like', "%".$request->keyword."%")
+                            ->whereDate('created_at', ">=" , Carbon::now()->subDays($request->date))
+                            ->where('status', $request->status)
+                            ->orderByDesc('created_at')
+                            ->get();
+                    }
+
+                }
                 $orders->load('building');
                 $orders->load('classroom');
                 $orders->load('user');
@@ -46,6 +83,8 @@ class OrderController extends Controller
                     $payment = config('common.payment');
                     $order->status = $status[$order->status];
                     $order->payment = $payment[$order->payment];
+                    $order->date_create = Carbon::createFromFormat('Y-m-d H:i:s', $order->created_at)->format('d-m-Y');
+                    $order->time_create = Carbon::createFromFormat('Y-m-d H:i:s', $order->created_at)->format('H:i:s');
                     $detail = DB::table('order_detail')->where('order_id', $order->id)->get();
                     $order->products = $detail;
                     foreach ($order->products as $value) {
@@ -70,10 +109,14 @@ class OrderController extends Controller
                 return response()->json(false);
             } else {
                 if ($request->date == 1){
-                    $orders = OrderModel::whereDate('created_at', Carbon::today())->orderByDesc('created_at')->get();
+                    $orders = OrderModel::whereDate('created_at', Carbon::today())
+                        ->orderByDesc('created_at')
+                        ->get();
                 }
                 else{
-                    $orders = OrderModel::whereDate('created_at', ">=" , Carbon::now()->subDays($request->date))->orderByDesc('created_at')->get();
+                    $orders = OrderModel::whereDate('created_at', ">=" , Carbon::now()->subDays($request->date))
+                        ->orderByDesc('created_at')
+                        ->get();
                 }
                 $orders->load('building');
                 $orders->load('classroom');
@@ -129,7 +172,8 @@ class OrderController extends Controller
             'price_total'=>$request->total,
             'payment'=>$request->payment,
             'note'=>$request->note,
-            'phone'=>$request->phone
+            'phone'=>$request->phone,
+            'code_order' =>$request->code_order
         ]);
         foreach($request->cartItems as $value){
             $order_detail =  OrderDetailModel::create([
@@ -181,9 +225,16 @@ class OrderController extends Controller
             return response()->json(false);
         } else {
             if($request->status == 0){
-                $orders = DB::table('orders')->where('user_id', $request->id)->get();
+                $orders = DB::table('orders')
+                    ->where('user_id', $request->id)
+                    ->orderByDesc('created_at')
+                    ->get();
             }else {
-                $orders = DB::table('orders')->where('user_id', $request->id)->where('status', $request->status)->get();
+                $orders = DB::table('orders')
+                    ->where('user_id', $request->id)
+                    ->where('status', $request->status)
+                    ->orderByDesc('created_at')
+                    ->get();
             }
             foreach ($orders as $order) {
                 $status = config('common.status');
@@ -210,7 +261,6 @@ class OrderController extends Controller
 
     public function update(Request $request, $id)
     {
-        $data = $request->all();
         $order = OrderModel::find($id);
         if ($request->status == 4){
             $point = $order->price_total;
@@ -218,7 +268,8 @@ class OrderController extends Controller
             $user->point = $user->point + $point;
             $user->save();
         }
-        $order->update($data);
+        $order->status = $request->status;
+        $order->save();
         return response()->json(true);
     }
 

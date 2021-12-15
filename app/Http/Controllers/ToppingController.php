@@ -9,9 +9,13 @@ use Illuminate\Validation\Rule;
 
 class ToppingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $Toppings = ToppingModel::all();
+        if ($request->status == 2){
+            $Toppings = ToppingModel::orderByDesc('created_at')->get();
+        }else{
+            $Toppings = ToppingModel::orderByDesc('created_at')->where('status', $request->status)->get();
+        }
         return response()->json($Toppings);
     }
 

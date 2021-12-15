@@ -11,7 +11,7 @@ class TypeController extends Controller
 {
     public function index()
     {
-        $types = TypeModel::all();
+        $types = TypeModel::orderByDesc('created_at')->get();
         return response()->json($types);
     }
 

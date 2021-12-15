@@ -49,7 +49,7 @@ Route::prefix('topping')->group(function() {
         Route::put('/{id}', 'ToppingController@update');
         Route::post('/create', 'ToppingController@store');
     });
-    Route::get('/', 'ToppingController@index');
+    Route::post('/', 'ToppingController@index');
     Route::get('/{id}', 'ToppingController@show');
 });
 Route::prefix('building')->group(function() {
@@ -68,7 +68,7 @@ Route::prefix('classroom')->group(function() {
         Route::put('/delete/{id}', 'ClassroomController@destroy');
         Route::post('/create', 'ClassroomController@store');
     });
-    Route::get('/', 'ClassroomController@index');
+    Route::post('/', 'ClassroomController@index');
     Route::get('/{id}', 'ClassroomController@show');
 });
 Route::prefix('product_topping')->group(function() {
@@ -87,10 +87,6 @@ Route::prefix('user')->group(function() {
     Route::put('/profile-google/{id}', 'UserController@getProfileGoogle');
     Route::group(['middleware' => 'auth.jwt'], function () {
          Route::post('/', 'UserController@getAll');
-        // Route::put('/delete/{id}', 'UserController@destroy');
-        // Route::post('/create', 'UserController@store');
-        // Route::get('/', 'UserController@index');
-        // Route::get('/{id}', 'UserController@show');
     });
 });
 Route::prefix('order')->group(function() {
