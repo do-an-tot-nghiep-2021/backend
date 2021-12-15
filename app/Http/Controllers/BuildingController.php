@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\BuildingModel;
-use App\Models\CategoryModel;
-use App\Models\ClassroomModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +12,7 @@ class BuildingController extends Controller
 {
     public function index()
     {
-        $buildings = BuildingModel::all();
+        $buildings = BuildingModel::orderByDesc('created_at')->get();
         return response()->json($buildings);
     }
 

@@ -6,6 +6,7 @@ use App\Models\VoucherModel;
 use App\Models\VoucherUserHistoryModel;
 use App\Models\VoucherUserModel;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -15,7 +16,7 @@ class VoucherController extends Controller
 {
     public function index()
     {
-        $vouchers = VoucherModel::all();
+        $vouchers = VoucherModel::orderByDesc('created_at')->get();
         return response()->json($vouchers);
     }
 

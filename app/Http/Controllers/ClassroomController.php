@@ -9,9 +9,13 @@ use Illuminate\Validation\Rule;
 
 class ClassroomController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $classrooms = ClassroomModel::all();
+        if ($request->build == 0){
+            $classrooms = ClassroomModel::orderByDesc('created_at')->get();
+        }else{
+            $classrooms = ClassroomModel::orderByDesc('created_at')->where('building_id', $request->build)->get();
+        }
         $classrooms->load('building');
         return response()->json($classrooms);
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -99,10 +100,21 @@ class UserController extends Controller
                 return response()->json(["status" => false]);
             } else {
                 if ($request->role == 0) {
-                    $users = User::all();
+                    $users = User::orderByDesc('created_at')->get();
+                    foreach ($users as $items){
+                        $items->date_create = Carbon::createFromFormat('Y-m-d H:i:s', $items->created_at)->format('d-m-Y');
+                        $items->time_create = Carbon::createFromFormat('Y-m-d H:i:s', $items->created_at)->format('H:i:s');
+                    }
                     return response()->json($users);
                 }else{
-                    $users = DB::table('users')->where('role', $request->role)->get();
+                    $users = DB::table('users')
+                        ->where('role', $request->role)
+                        ->orderByDesc('created_at')
+                        ->get();
+                    foreach ($users as $items){
+                        $items->date_create = Carbon::createFromFormat('Y-m-d H:i:s', $items->created_at)->format('d-m-Y');
+                        $items->time_create = Carbon::createFromFormat('Y-m-d H:i:s', $items->created_at)->format('H:i:s');
+                    }
                     return response()->json($users);
                 }
             }

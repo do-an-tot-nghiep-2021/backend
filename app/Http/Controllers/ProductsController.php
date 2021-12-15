@@ -13,7 +13,7 @@ class ProductsController extends Controller
 {
     public function index()
     {
-        $products = ProductsModel::all();
+        $products = ProductsModel::orderByDesc('created_at')->get();
         $products->load('category');
         $products->load('productTopping');
         $products->load('productType');
@@ -22,36 +22,72 @@ class ProductsController extends Controller
 
     public function showProductCate($id)
     {
-        $products = ProductsModel::with('category')->where('cate_id', $id)->get();
+        $products = ProductsModel::with('category')
+            ->where('cate_id', $id)
+            ->orderByDesc('created_at')
+            ->get();
         return response()->json($products);
     }
 
     public function getKeyword(Request $request)
     {
-        $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->get();
+        $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")
+            ->orderByDesc('created_at')
+            ->get();
         if (isset($request->cate_id)) {
-            $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->where('cate_id', $request->cate_id)->get();
+            $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")
+                ->where('cate_id', $request->cate_id)
+                ->orderByDesc('created_at')
+                ->get();
         }
         if (isset($request->filter)) {
             if($request->filter == 1){
-                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->orderBy('name')->get();
+                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")
+                    ->orderBy('name')
+                    ->orderByDesc('created_at')
+                    ->get();
             }else if($request->filter == 2){
-                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->orderByDesc('name')->get();
+                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")
+                    ->orderByDesc('name')
+                    ->orderByDesc('created_at')
+                    ->get();
             }else if($request->filter == 3){
-                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->orderBy('price')->get();
+                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")
+                    ->orderBy('price')
+                    ->orderByDesc('created_at')
+                    ->get();
             }else{
-                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->orderByDesc('price')->get();
+                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")
+                    ->orderByDesc('price')
+                    ->orderByDesc('created_at')
+                    ->get();
             }
         }
         if ($request->filter > 0 && $request->cate_id > 0) {
             if($request->filter == 1){
-                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->where('cate_id', $request->cate_id)->orderBy('name')->get();
+                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")
+                    ->where('cate_id', $request->cate_id)
+                    ->orderBy('name')
+                    ->orderByDesc('created_at')
+                    ->get();
             }else if($request->filter == 2){
-                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->where('cate_id', $request->cate_id)->orderByDesc('name')->get();
+                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")
+                    ->where('cate_id', $request->cate_id)
+                    ->orderByDesc('name')
+                    ->orderByDesc('created_at')
+                    ->get();
             }else if($request->filter == 3){
-                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->where('cate_id', $request->cate_id)->orderBy('price')->get();
+                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")
+                    ->where('cate_id', $request->cate_id)
+                    ->orderBy('price')
+                    ->orderByDesc('created_at')
+                    ->get();
             }else{
-                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")->where('cate_id', $request->cate_id)->orderByDesc('price')->get();
+                $products = ProductsModel::where('name', 'like', "%".$request->keyword."%")
+                    ->where('cate_id', $request->cate_id)
+                    ->orderByDesc('price')
+                    ->orderByDesc('created_at')
+                    ->get();
             }
         }
         $products->load('category');
@@ -97,7 +133,9 @@ class ProductsController extends Controller
     public function show($id)
     {
         $product = ProductsModel::find($id);
-        $product->product_cate = ProductsModel::with('category')->where('cate_id', $product->cate_id)->get();
+        $product->product_cate = ProductsModel::with('category')
+            ->where('cate_id', $product->cate_id)
+            ->get();
         $product->load('category');
         $product->load('productTopping');
         $product->load('productType');
