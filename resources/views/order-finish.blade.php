@@ -316,7 +316,7 @@
                             <td style="padding: 0 2.5em; text-align: left;">
                                 <div class="payment">
                                     <div>
-                                        <h3>Payment method</h3>
+                                        <h3>Phương thức thanh toán</h3>
                                     </div>
                                     <div class="content-payment text-sm mt-1">
                                         {{$order->payment}}
@@ -326,7 +326,7 @@
                             <td style="padding: 0 2.5em; text-align: left;">
                                 <div class="shipping">
                                     <div>
-                                        <h3>Shipping address</h3>
+                                        <h3>Địa chỉ nhận hàng</h3>
                                     </div>
                                     <div class="content-shipping text-sm mt-1">
                                         Phòng {{$order->classroom}},
@@ -342,7 +342,7 @@
             <tr>
                 <table class="bg_white" role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                     <tr style="border-bottom: 1px solid rgba(0,0,0,.05);">
-                        <th width="100%" style="text-align:left; padding: 0 2.5em; color: #000; padding-bottom: 20px">Product</th>
+                        <th width="100%" style="text-align:left; padding: 0 2.5em; color: #000; padding-bottom: 20px">Sản phẩm</th>
                     </tr>
                     @foreach($order->product as $items)
                         <tr style="border-bottom: 1px solid rgba(0,0,0,.05);">
@@ -362,13 +362,6 @@
                             </td>
                         </tr>
                     @endforeach
-
-
-                    <tr>
-                        <td valign="middle" style="text-align:left; padding: 1em 2.5em;">
-                            <p><a href="#" class="btn btn-primary">Continur your order</a></p>
-                        </td>
-                    </tr>
                 </table>
             </tr>
 
@@ -382,8 +375,8 @@
                                 <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                                     <tr>
                                         <td style="text-align: left; padding-right: 10px;">
-                                            <h3 class="heading">About</h3>
-                                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                                            <h3 class="heading">Về chúng tôi</h3>
+                                            <p>Chúng tôi khao khát một số thực sự tan chảy trong miệng. Beecoffee là lựa chọn tốt nhất để nêm nếm thức ăn và món tráng miệng.</p>
                                         </td>
                                     </tr>
                                 </table>
@@ -392,10 +385,12 @@
                                 <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                                     <tr>
                                         <td style="text-align: left; padding-left: 5px; padding-right: 5px;">
-                                            <h3 class="heading">Contact Info</h3>
+                                            <h3 class="heading">Liên hệ</h3>
                                             <ul>
-                                                <li><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-                                                <li><span class="text">+2 392 3929 210</span></a></li>
+                                                <li>
+                                                    <span class="text">Cao đẳng thực hành FPT POLYTECHNIC 80 Trần Hữu Dực, Nam Từ Liêm, Hà Nội</span>
+                                                </li>
+                                                <li><span class="text">123 456 7890</span></li>
                                             </ul>
                                         </td>
                                     </tr>
@@ -405,12 +400,11 @@
                                 <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                                     <tr>
                                         <td style="text-align: left; padding-left: 10px;">
-                                            <h3 class="heading">Useful Links</h3>
+                                            <h3 class="heading">Giờ mở cửa</h3>
                                             <ul>
-                                                <li><a href="#">Home</a></li>
-                                                <li><a href="#">Account</a></li>
-                                                <li><a href="#">Wishlist</a></li>
-                                                <li><a href="#">Order</a></li>
+                                                <li><a href="#">Thứ 2 - Thứ 6: ........ 6h - 21h</a></li>
+                                                <li><a href="#">Thứ 7 - Chủ nhật: ........ 6h - 22h</a></li>
+                                                <li><a href="#">Đóng vào các ngày đặc biệt</a></li>
                                             </ul>
                                         </td>
                                     </tr>
@@ -420,11 +414,7 @@
                     </table>
                 </td>
             </tr>
-            <tr>
-                <td class="bg_white" style="text-align: center;">
-                    <p>No longer want to receive these email? You can <a href="#" style="color: rgba(0,0,0,.8);">Unsubscribe here</a></p>
-                </td>
-            </tr>
+
         </table>
     </div>
 </div>
