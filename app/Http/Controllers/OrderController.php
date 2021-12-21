@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderAdminMail;
 use App\Mail\OrderMail;
 use App\Models\OrderDetailModel;
 use App\Models\OrderDetailToppingModel;
@@ -211,7 +212,8 @@ class OrderController extends Controller
         $send_order->classroom = $classroom->name;
         $send_order->building = $building->name;
         $send_order->product = $order_send_product;
-        Mail::to($user->email)->send(new OrderMail($send_order));
+        $send_order->user = $user;
+        Mail::to([$user->email, 'beecoffeeorder@gmail.com'])->send(new OrderMail($send_order));
 
         return response()->json(["status" => true]);
     }
